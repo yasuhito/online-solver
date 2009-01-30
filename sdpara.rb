@@ -25,7 +25,6 @@ require 'tempfile'
 # GLOBAL CONFIG
 ################################################################################
 
-$webapp_dir = '/home/fujisawa/webapp'
 $temp_dir = '/tmp'
 
 
@@ -92,7 +91,7 @@ end
 ################################################################################
 
 def setup_files
-  unless FileTest.directory?( $webapp_dir )
+  unless FileTest.directory?( $temp_dir )
     FileUtils.mkdir_p $temp_dir, :verbose => debug
   end
   FileUtils.rm out_file, :force => true, :verbose => debug

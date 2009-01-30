@@ -24,7 +24,6 @@ require 'pshell'
 ################################################################################
 
 $torque = 'laqua.indsys.chuo-u.ac.jp'
-$program = '/home/yasuhito/project/sdpa/sdpara.rb'
 
 
 ################################################################################
@@ -40,8 +39,13 @@ $out_file_name = ARGV[ 2 ]
 # Misc
 ################################################################################
 
+def sdpara
+  File.expand_path File.join( File.dirname( __FILE__ ), 'sdpara.rb' )
+end
+
+
 def ssh_command
-  "ssh #{ $torque } /usr/bin/ruby #{ $program } #{ $input_file } #{ $parameter_file } #{ ENV[ 'DEBUG' ] ? '1' : '0' }"
+  "ssh #{ $torque } /usr/bin/ruby #{ sdpara } #{ $input_file } #{ $parameter_file } #{ ENV[ 'DEBUG' ] ? '1' : '0' }"
 end
 
 
