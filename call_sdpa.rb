@@ -14,6 +14,8 @@
 #   % ./call_sdpa.rb /tmp/sdpa/medium.dat-s /tmp/sdpa/param.sdpa /tmp/out
 #
 
+$LOAD_PATH.unshift File.dirname( __FILE__ )
+
 require 'fileutils'
 require 'popen3'
 require 'pshell'
@@ -45,7 +47,8 @@ end
 
 
 def ssh_command
-  "ssh #{ $torque } /usr/bin/ruby #{ sdpara } #{ $input_file } #{ $parameter_file } #{ ENV[ 'DEBUG' ] ? '1' : '0' }"
+  ssh_identity = ENV[ 'SSH_IDENTITY' ] ? "-i #{ ENV[ 'SSH_IDENTITY' ] }": ''
+  "ssh #{ ssh_identity } #{ $torque } /usr/bin/ruby #{ sdpara } #{ $input_file } #{ $parameter_file } #{ ENV[ 'DEBUG' ] ? '1' : '0' }"
 end
 
 
