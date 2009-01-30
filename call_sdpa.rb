@@ -62,6 +62,7 @@ Popen3::Shell.open do | shell |
   # SDPA の出力はバッファリングを避けるためすべて stderr で飛んでくる
   shell.on_stderr do | line |
     out.puts line
+    out.flush
     debug_print line
   end
 
