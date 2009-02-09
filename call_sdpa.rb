@@ -12,7 +12,7 @@ require 'pshell'
 # Global Config
 ################################################################################
 
-$torque = 'laqua.indsys.chuo-u.ac.jp'
+$torque = 'sdpa01.indsys.chuo-u.ac.jp'
 
 
 ################################################################################
@@ -35,9 +35,25 @@ def sdpara
 end
 
 
+def ssh_identity 
+  ENV[ 'SSH_IDENTITY' ] ? "-i #{ ENV[ 'SSH_IDENTITY' ] }": ''
+end
+
+
+def file_staging_command
+  [ $input_file, $parameter_file ].collect do | each |
+    "scp #{ ssh_identity } #{ each } #{ $torque }:#{ each }"
+  end.join( '; ' )
+end
+
+
 def ssh_command
-  ssh_identity = ENV[ 'SSH_IDENTITY' ] ? "-i #{ ENV[ 'SSH_IDENTITY' ] }": ''
   "ssh #{ ssh_identity } #{ $torque } /usr/bin/ruby #{ sdpara } #{ $input_file } #{ $parameter_file } #{ $solver } #{ $ncpu } #{ ENV[ 'DEBUG' ] ? '1' : '0' }"
+end
+
+
+def command
+  file_staging_command + '; ' + ssh_command
 end
 
 
@@ -62,6 +78,6 @@ Popen3::Shell.open do | shell |
     debug_print line
   end
 
-  debug_print ssh_command
-  shell.exec ssh_command
+  debug_print command
+  shell.exec command
 end
