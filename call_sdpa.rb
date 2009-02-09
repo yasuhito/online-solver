@@ -12,7 +12,8 @@ require 'pshell'
 # Global Config
 ################################################################################
 
-$torque = 'sdpa01.indsys.chuo-u.ac.jp'
+$torque = 'laqua.indsys.chuo-u.ac.jp'
+$torque_cluster = 'sdpa01.indsys.chuo-u.ac.jp'
 
 
 ################################################################################
@@ -40,20 +41,29 @@ def ssh_identity
 end
 
 
-def file_staging_command
+def file_staging_command torque
   [ $input_file, $parameter_file ].collect do | each |
-    "scp #{ ssh_identity } #{ each } #{ $torque }:#{ each }"
+    "scp #{ ssh_identity } #{ each } #{ torque }:#{ each }"
   end.join( '; ' )
 end
 
 
-def ssh_command
-  "ssh #{ ssh_identity } #{ $torque } /usr/bin/ruby #{ sdpara } #{ $input_file } #{ $parameter_file } #{ $solver } #{ $ncpu } #{ ENV[ 'DEBUG' ] ? '1' : '0' }"
+def ssh_command torque
+  "ssh #{ ssh_identity } #{ torque } /usr/bin/ruby #{ sdpara } #{ $input_file } #{ $parameter_file } #{ $solver } #{ $ncpu } #{ ENV[ 'DEBUG' ] ? '1' : '0' }"
 end
 
 
 def command
-  file_staging_command + '; ' + ssh_command
+  case $solver
+  when 'sdpa'
+    ssh_command 'laqua.indsys.chuo-u.ac.jp'
+  when 
+    file_staging_command + '; ' + ssh_command( 'sdpa01.indsys.chuo-u.ac.jp' )
+  when 'sdpa_gmp'
+    file_staging_command + '; ' + ssh_command( 'opt-laqua.indsys.chuo-u.ac.jp' )
+  else
+    raise "We should not reach here!"
+  end
 end
 
 
