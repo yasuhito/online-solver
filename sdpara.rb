@@ -140,7 +140,6 @@ EOF
 #PBS -l ncpus=#{ mpich_ncpus }
 #PBS -l nodes=#{ mpich_nodes }
 #PBS -q sdpa
-cat $PBS_NODEFILE > /home/fujisawa/sdpa/prog/new/sdpara.org/node.list
 #{ solver[ $solver_name ] } #{ solver_args }
 EOF
     else
