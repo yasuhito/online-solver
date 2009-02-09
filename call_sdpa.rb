@@ -1,18 +1,5 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
-#
-# 説明:
-#   SDPA のリモート実行用インタフェース。
-#   SDPA の出力はイテレーションごとに、第三引数に指定した出力ファイルへ出力される。
-#   Web インタフェース (PHP とか) はこのファイルを定期的にリロードする
-#   ことで、実行中の状態を更新できる。
-#
-# 使い方:
-#   call_sdpara.rb 入力ファイル パラメータ 出力ファイル
-#
-# 実行例:
-#   % ./call_sdpa.rb /tmp/sdpa/medium.dat-s /tmp/sdpa/param.sdpa /tmp/out
-#
 
 $LOAD_PATH.unshift File.dirname( __FILE__ )
 

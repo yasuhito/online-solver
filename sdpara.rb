@@ -1,16 +1,5 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
-#
-# 説明:
-#   SDPA を Torque 経由で実行するためのラッパースクリプト。
-#   SSH 経由で call_sdpa.rb から呼ばれる。
-#
-# 実行方法:
-#   sdpara.rb 入力ファイル パラメータ デバッフラグ
-#
-# 実行例
-#   % ./sdpara.rb /tmp/sdpa/medium.dat-s /tmp/sdpa/param.sdpa 1
-#
 
 $LOAD_PATH.unshift File.dirname( __FILE__ )
 Dir.chdir File.dirname( __FILE__ )
