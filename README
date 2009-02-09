@@ -6,20 +6,20 @@
    とで、実行中の状態を更新できる。
 
    使い方:
-     call_sdpara.rb 入力ファイル パラメータ 出力ファイル
+     call_sdpara.rb 入力ファイル パラメータ 出力ファイル ソルバ CPU数
 
    実行例:
-     % ./call_sdpa.rb /tmp/sdpa/medium.dat-s /tmp/sdpa/param.sdpa /tmp/out
+     % ./call_sdpa.rb /tmp/sdpa/medium.dat-s /tmp/sdpa/param.sdpa /tmp/out sdpa 16
 
 ** sdpara.rb
    SDPA を Torque 経由で実行するためのラッパースクリプト。
    SSH 経由で call_sdpa.rb から呼ばれる。
 
    実行方法:
-    sdpara.rb 入力ファイル パラメータ デバッフラグ
+    sdpara.rb 入力ファイル パラメータ ソルバ CPU数 デバッフラグ
 
    実行例
-    % ./sdpara.rb /tmp/sdpa/medium.dat-s /tmp/sdpa/param.sdpa 1
+    % ./sdpara.rb /tmp/sdpa/medium.dat-s /tmp/sdpa/param.sdpa sdpa 16 1
 
 * ノードの追加方法
   Torque にノードを追加すれば、自動的にそこに投げられるようになるはず

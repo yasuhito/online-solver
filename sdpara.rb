@@ -23,22 +23,21 @@ $temp_dir = '/tmp'
 
 $in_file_name = ARGV[ 0 ]
 $parameter_file_name = ARGV[ 1 ]
+$solver_name = ARGV[ 2 ].to_sym
+$ncpu = ARGV[ 3 ].to_i
 
 
 ################################################################################
 # Solvers
 ################################################################################
 
-# 現状では :default しか使っていない
-$solver = { 
-  :default => '/home/fujisawa/sdpa7.intel/sdpa.7.2.1.rev5/sdpa.rev5',
-  :sdpa6 => '/home/fujisawa/sdpa/prog/new/sdpa/sdpa6',
-  :sdpara => '/home/fujisawa/sdpa/prog/new/sdpara.org/sdpara.mpich2',
-  :sdpara_c => '/home/fujisawa/sdpa/prog/new/sdpara-c/sdpara-c.mpich2',
-  :sdpa_intel => '/home/fujisawa/sdpa/prog/new/sdpa702/sdpa.intel.new',
-  :sdpa_goto => '/home/fujisawa/sdpa/prog/new/sdpa702/sdpa.goto.new',
-  :sdpa_gmp => '/home/fujisawa/sdpa/prog/new/sdpa-gmp702/sdpa_gmp.intel',
-}
+def solver
+  { 
+    :sdpa => '/home/fujisawa/sdpa7.intel/sdpa.7.2.1.rev5/sdpa.rev5',
+    :sdpara => "mpiexec -d #{ $ncpu } /home/fujisawa/sdpa/prog/new/sdpara.org/sdpara.mpich2",
+    :sdpa_gmp => '/home/fujisawa/sdpa/prog/new/sdpa-gmp702/sdpa_gmp.intel'
+  }
+end
 
 
 def solver_args
@@ -89,18 +88,64 @@ def setup_files
 end
 
 
+def mpich_ncpus
+  case $ncpu
+  when 1, 2, 4, 8, 16
+    1
+  when 32
+    2
+  else
+    raise 'We should not reach here!'
+  end
+end
+
+
+def mpich_nodes
+  case $ncpu
+  when 1, 2, 4, 8, 16
+    $ncpu
+  when 32
+    16
+  else
+    raise 'We should not reach here!'
+  end
+end
+
+
 def create_qsub_sh
   debug_print "filename = #{ qsub_sh }"
 
   File.open( qsub_sh, 'w' ) do | file |
-    script = <<-EOF
+    case $solver_name
+    when :sdpa
+      script = <<-EOF
+#!/bin/sh
+#PBS -l ncpus=#{ $ncpu }
+#PBS -l nodes=1
+#PBS -q sdpa
+export OMP_NUM_THREADS=#{ $ncpu }
+#{ solver[ $solver_name ] } #{ solver_args }
+EOF
+    when :sdpa_gmp
+      script = <<-EOF
 #!/bin/sh
 #PBS -l ncpus=1
 #PBS -l nodes=1
 #PBS -q sdpa
-export OMP_NUM_THREADS=4
-#{ $solver[ :default ] } #{ solver_args }
+#{ solver[ $solver_name ] } #{ solver_args }
 EOF
+    when :sdpara
+      script = <<-EOF
+#!/bin/sh
+#PBS -l ncpus=#{ mpich_ncpus }
+#PBS -l nodes=#{ mpich_nodes }
+#PBS -q sdpa
+cat $PBS_NODEFILE > /home/fujisawa/sdpa/prog/new/sdpara.org/node.list
+#{ solver[ $solver_name ] } #{ solver_args }
+EOF
+    else
+      raise "We should not reach here!"
+    end
     script.split( "\n" ).each do | each |
       debug_print '> ' + each
     end
@@ -157,7 +202,7 @@ end
 
 
 def debug
-  ARGV[ 2 ] == '1'
+  ARGV[ 4 ] == '1'
 end
 
 

@@ -22,6 +22,8 @@ $torque = 'laqua.indsys.chuo-u.ac.jp'
 $input_file = ARGV[ 0 ]
 $parameter_file = ARGV[ 1 ]
 $out_file_name = ARGV[ 2 ]
+$solver = ARGV[ 3 ]
+$ncpu = ARGV[ 4 ]
 
 
 ################################################################################
@@ -35,7 +37,7 @@ end
 
 def ssh_command
   ssh_identity = ENV[ 'SSH_IDENTITY' ] ? "-i #{ ENV[ 'SSH_IDENTITY' ] }": ''
-  "ssh #{ ssh_identity } #{ $torque } /usr/bin/ruby #{ sdpara } #{ $input_file } #{ $parameter_file } #{ ENV[ 'DEBUG' ] ? '1' : '0' }"
+  "ssh #{ ssh_identity } #{ $torque } /usr/bin/ruby #{ sdpara } #{ $input_file } #{ $parameter_file } #{ $solver } #{ $ncpu } #{ ENV[ 'DEBUG' ] ? '1' : '0' }"
 end
 
 
