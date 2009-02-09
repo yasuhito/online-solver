@@ -34,8 +34,8 @@ $ncpu = ARGV[ 3 ].to_i
 def solver
   { 
     :sdpa => '/home/fujisawa/sdpa7.intel/sdpa.7.2.1.rev7/sdpa.7.2.1',
-    :sdpara => "mpiexec -d #{ $ncpu } /home/fujisawa/sdpa-src/sdpara.7..1/sdpara.7.2.1",
-    :sdpa_gmp => '/home/fujisawa/sdpa7.new/sdpa-gmp-7.1.2/sdpa_gmp.7.1.2'
+    :sdpara => "mpiexec -d #{ $ncpu } /home/fujisawa/sdpa-src/sdpara.7.2.1/sdpara.7.2.1",
+    :sdpa_gmp => '/home/fujisawa/sdpa7.new/sdpa-gmp-7.1.2/sdpa_gmp'
   }
 end
 
