@@ -49,7 +49,7 @@ def command
   case $solver
   when 'sdpa'
     ssh_command 'laqua.indsys.chuo-u.ac.jp'
-  when 
+  when 'sdpara'
     file_staging_command + '; ' + ssh_command( 'sdpa01.indsys.chuo-u.ac.jp' )
   when 'sdpa_gmp'
     file_staging_command + '; ' + ssh_command( 'opt-laqua.indsys.chuo-u.ac.jp' )
