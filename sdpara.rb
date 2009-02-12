@@ -60,12 +60,12 @@ end
 
 
 def in_file
-  File.expand_path File.join( $temp_dir, File.basename( $in_file_name ) )
+  File.expand_path $in_file_name
 end
 
 
 def parameter_file
-  File.expand_path File.join( $temp_dir, File.basename( $parameter_file_name ) )
+  File.expand_path $parameter_file_name
 end
 
 
@@ -82,16 +82,6 @@ end
 ################################################################################
 # Misc
 ################################################################################
-
-def setup_files
-  unless FileTest.directory?( $temp_dir )
-    FileUtils.mkdir_p $temp_dir, :verbose => debug
-  end
-  FileUtils.rm out_file, :force => true, :verbose => debug
-  FileUtils.cp File.expand_path( $in_file_name ), $temp_dir, :verbose => debug
-  FileUtils.cp File.expand_path( $parameter_file_name ), $temp_dir, :verbose => debug
-end
-
 
 def mpich_ncpus
   case $ncpu
@@ -223,7 +213,6 @@ end
 ################################################################################
 
 begin
-  setup_files
   create_qsub_sh
   wait_until_finish qsub
 rescue
