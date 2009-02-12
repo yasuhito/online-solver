@@ -170,6 +170,14 @@ def qsub
       end
     end
 
+    shell.on_stderr do | line |
+      $stderr.puts line
+    end
+
+    shell.on_failure do
+      raise 'qsub failed'
+    end
+
     debug_print cmd
     shell.exec cmd
   end
