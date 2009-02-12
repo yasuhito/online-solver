@@ -21,6 +21,11 @@ $temp_dir = '/tmp'
 # Arguments
 ################################################################################
 
+if ARGV.size != 3
+  STDERR.puts "#{ $0 } INPUT_FILE PARAMETER_FILE SOLVER_NAME NUM_OF_CPU"
+  exit 1
+end
+
 $in_file_name = ARGV[ 0 ]
 $parameter_file_name = ARGV[ 1 ]
 $solver_name = ARGV[ 2 ].to_sym
