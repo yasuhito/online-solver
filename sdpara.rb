@@ -21,7 +21,7 @@ $temp_dir = '/tmp'
 # Arguments
 ################################################################################
 
-if ARGV.size != 4
+if ARGV.size < 4
   STDERR.puts "#{ $0 } INPUT_FILE PARAMETER_FILE SOLVER_NAME NUM_OF_CPU"
   exit 1
 end
