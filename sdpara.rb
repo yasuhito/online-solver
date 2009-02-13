@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 $LOAD_PATH.unshift File.dirname( __FILE__ )
-Dir.chdir File.dirname( __FILE__ )
 
 require 'fileutils'
 require 'popen3'
@@ -15,6 +14,7 @@ require 'tempfile'
 ################################################################################
 
 $temp_dir = '/home/online/tmp/'
+Dir.chdir File.dirname( $temp_dir )
 
 
 ################################################################################
@@ -76,7 +76,7 @@ end
 
 
 def job_out_file job_id
-  File.expand_path File.join( File.dirname( __FILE__ ), "#{ Process.pid }.sh.o#{ job_id }" )
+  File.join $temp_dir, "#{ Process.pid }.sh.o#{ job_id }"
 end
 
 
@@ -184,6 +184,12 @@ def qsub
 end
 
 
+def job_in_progress
+  tail = `tail -1 #{ out_file }`.chomp
+  not ( /^ALL TIME =/=~ tail || /^\s*file\s+read\s+time =/=~ tail )
+end
+
+
 def wait_until_finish job_id
   loop do
     break if FileTest.exists?( out_file )
@@ -193,10 +199,10 @@ def wait_until_finish job_id
   debug_print "Waiting until #{ job_out_file( job_id ) } created ..."
 
   out = File.open( out_file, 'r' )
-  while ( not FileTest.exists?( job_out_file( job_id ) ) )
+  while job_in_progress
     begin
       $stderr.print out.sysread( 1024 )
-      sleep 0.1
+      sleep 1
     rescue EOFError
       # do nothing
     end
