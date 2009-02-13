@@ -129,6 +129,15 @@ def create_qsub_sh
 export OMP_NUM_THREADS=#{ $ncpu }
 #{ solver[ $solver_name ] } #{ solver_args }
 EOF
+    when :sdpa_ec2
+      script = <<-EOF
+#!/bin/sh
+#PBS -l ncpus=1
+#PBS -l nodes=1
+#PBS -q sdpa
+export OMP_NUM_THREADS=1
+#{ solver[ $solver_name ] } #{ solver_args }
+EOF
     when :sdpa_gmp
       script = <<-EOF
 #!/bin/sh
