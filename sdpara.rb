@@ -80,7 +80,7 @@ end
 
 
 def setup_directory
-  unless FileTest.dir?( $temp_dir )
+  unless FileTest.directory?( $temp_dir )
     Dir.mkdir_p $temp_dir
   end
 end
