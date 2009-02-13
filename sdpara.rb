@@ -205,6 +205,8 @@ def wait_until_finish job_id
       # do nothing
     end
   end
+  # 残りの読み込み
+  $stderr.print out.read
 end
 
 
