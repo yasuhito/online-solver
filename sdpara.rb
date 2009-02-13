@@ -185,7 +185,7 @@ end
 
 def job_in_progress
   tail = `tail -1 #{ out_file }`.chomp
-  not ( /^ALL TIME =/=~ tail || /^file read time =/=~ tail )
+  not ( /^ALL TIME =/=~ tail || /^\s*file\s+read\s+time =/=~ tail )
 end
 
 
