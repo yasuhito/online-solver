@@ -10,7 +10,7 @@ require 'tempfile'
 
 
 ################################################################################
-# GLOBAL CONFIG
+# Global Config
 ################################################################################
 
 $temp_dir = '/home/online/tmp/'
@@ -72,11 +72,6 @@ end
 
 def qsub_sh
   File.expand_path out_file + '.sh'
-end
-
-
-def job_out_file job_id
-  File.join $temp_dir, "#{ Process.pid }.sh.o#{ job_id }"
 end
 
 
@@ -206,8 +201,6 @@ def wait_until_finish job_id
     break if FileTest.exists?( out_file )
     sleep 1
   end
-
-  debug_print "Waiting until #{ job_out_file( job_id ) } created ..."
 
   out = File.open( out_file, 'r' )
   while job_in_progress

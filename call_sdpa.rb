@@ -9,6 +9,13 @@ require 'pshell'
 
 
 ################################################################################
+# Global Config
+################################################################################
+
+$online_home = '/home/online'
+
+
+################################################################################
 # Arguments
 ################################################################################
 
@@ -23,8 +30,23 @@ $ncpu = ARGV[ 4 ]
 # Misc
 ################################################################################
 
+def temp_dir
+  File.join $online_home, 'tmp'
+end
+
+
 def sdpara
-  '/home/online/bin/sdpara.rb'
+  File.join $online_home, 'bin/sdpara.rb'
+end
+
+
+def input_file
+  File.join temp_dir, File.basename( $input_file )
+end
+
+
+def parameter_file
+  File.join temp_dir, File.basename( $parameter_file )
 end
 
 
@@ -35,13 +57,13 @@ end
 
 def file_staging_command torque
   [ $input_file, $parameter_file ].collect do | each |
-    "scp #{ ssh_identity } #{ each } #{ torque }:#{ each }"
+    "scp #{ ssh_identity } #{ each } #{ torque }:#{ temp_dir }"
   end.join( '; ' )
 end
 
 
 def ssh_command torque
-  "ssh #{ ssh_identity } #{ torque } /usr/bin/ruby #{ sdpara } #{ $input_file } #{ $parameter_file } #{ $solver } #{ $ncpu } #{ ENV[ 'DEBUG' ] ? '1' : '0' }"
+  "ssh #{ ssh_identity } #{ torque } /usr/bin/ruby #{ sdpara } #{ input_file } #{ parameter_file } #{ $solver } #{ $ncpu } #{ ENV[ 'DEBUG' ] ? '1' : '0' }"
 end
 
 
@@ -50,7 +72,8 @@ def command
   when 'sdpa'
     ssh_command 'laqua.indsys.chuo-u.ac.jp'
   when 'sdpa_ec2'
-    ssh_command 'online@ec2-67-202-18-171.compute-1.amazonaws.com'
+    torque = 'online@ec2-67-202-18-171.compute-1.amazonaws.com'
+    file_staging_command( torque ) + '; ' + ssh_command( torque )
   when 'sdpara'
     torque = 'online@sdpa01.indsys.chuo-u.ac.jp'
     file_staging_command( torque ) + '; ' + ssh_command( torque )
