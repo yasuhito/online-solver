@@ -55,7 +55,7 @@ end
 ################################################################################
 
 def out_file
-  File.join $temp_dir, Process.pid
+  File.join $temp_dir, Process.pid.to_s
 end
 
 
