@@ -183,6 +183,11 @@ def qsub
 end
 
 
+def job_in_progress
+  not ( /^ALL TIME =/=~ `tail -1 #{ out_file }`.chomp )
+end
+
+
 def wait_until_finish job_id
   loop do
     break if FileTest.exists?( out_file )
@@ -192,16 +197,14 @@ def wait_until_finish job_id
   debug_print "Waiting until #{ job_out_file( job_id ) } created ..."
 
   out = File.open( out_file, 'r' )
-  while ( not FileTest.exists?( job_out_file( job_id ) ) )
+  while job_in_progress
     begin
       $stderr.print out.sysread( 1024 )
-      sleep 0.1
+      sleep 1
     rescue EOFError
       # do nothing
     end
   end
-  # 残りの読み込み
-  $stderr.print out.read
 end
 
 
