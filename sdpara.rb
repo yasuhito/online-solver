@@ -40,7 +40,8 @@ def solver
   { 
     :sdpa => '/home/fujisawa/sdpa7.intel/sdpa.7.2.1.rev7/sdpa.7.2.1',
     :sdpara => "mpiexec -n #{ $ncpu } /home/fujisawa/sdpa-src/sdpara.7.2.1/sdpara.7.2.1",
-    :sdpa_gmp => '/home/fujisawa/sdpa7.new/sdpa-gmp-7.1.2/sdpa_gmp'
+    :sdpa_gmp => '/home/fujisawa/sdpa7.new/sdpa-gmp-7.1.2/sdpa_gmp',
+    :sdpa_ec2 => '/home/fujisawa/sdpa7.new/sdpa.7.2.1/sdpa.7.2.1'
   }
 end
 
