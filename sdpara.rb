@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 $LOAD_PATH.unshift File.dirname( __FILE__ )
-Dir.chdir File.dirname( __FILE__ )
 
 require 'fileutils'
 require 'popen3'
@@ -15,6 +14,7 @@ require 'tempfile'
 ################################################################################
 
 $temp_dir = '/home/online/tmp/'
+Dir.chdir File.dirname( $temp_dir )
 
 
 ################################################################################
@@ -75,7 +75,7 @@ end
 
 
 def job_out_file job_id
-  File.expand_path File.join( File.dirname( __FILE__ ), "#{ Process.pid }.sh.o#{ job_id }" )
+  File.join $temp_dir, "#{ Process.pid }.sh.o#{ job_id }"
 end
 
 
