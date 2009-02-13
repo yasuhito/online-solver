@@ -24,7 +24,7 @@ $ncpu = ARGV[ 4 ]
 ################################################################################
 
 def sdpara
-  File.expand_path File.join( File.dirname( __FILE__ ), 'sdpara.rb' )
+  '/home/online/bin/sdpara.rb'
 end
 
 
@@ -49,6 +49,8 @@ def command
   case $solver
   when 'sdpa'
     ssh_command 'laqua.indsys.chuo-u.ac.jp'
+  when 'sdpa_ec2'
+    ssh_command 'online@ec2-67-202-18-171.compute-1.amazonaws.com'
   when 'sdpara'
     torque = 'online@sdpa01.indsys.chuo-u.ac.jp'
     file_staging_command( torque ) + '; ' + ssh_command( torque )
