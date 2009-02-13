@@ -81,7 +81,7 @@ end
 
 def setup_directory
   unless FileTest.directory?( $temp_dir )
-    Dir.mkdir_p $temp_dir
+    FileUtils.mkdir_p $temp_dir
   end
 end
 
