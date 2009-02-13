@@ -50,7 +50,7 @@ def command
   when 'sdpa'
     ssh_command 'laqua.indsys.chuo-u.ac.jp'
   when 'sdpara'
-    torque = 'sdpa01.indsys.chuo-u.ac.jp'
+    torque = 'online@sdpa01.indsys.chuo-u.ac.jp'
     file_staging_command( torque ) + '; ' + ssh_command( torque )
   when 'sdpa_gmp'
     torque = 'opt-laqua.indsys.chuo-u.ac.jp'
