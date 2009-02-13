@@ -50,9 +50,11 @@ def command
   when 'sdpa'
     ssh_command 'laqua.indsys.chuo-u.ac.jp'
   when 'sdpara'
-    file_staging_command + '; ' + ssh_command( 'sdpa01.indsys.chuo-u.ac.jp' )
+    torque = 'sdpa01.indsys.chuo-u.ac.jp'
+    file_staging_command( torque ) + '; ' + ssh_command( torque )
   when 'sdpa_gmp'
-    file_staging_command + '; ' + ssh_command( 'opt-laqua.indsys.chuo-u.ac.jp' )
+    torque = 'opt-laqua.indsys.chuo-u.ac.jp'
+    file_staging_command( torque ) + '; ' + ssh_command( torque )
   else
     raise "We should not reach here!"
   end
