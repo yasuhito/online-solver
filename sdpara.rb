@@ -14,7 +14,7 @@ require 'tempfile'
 # GLOBAL CONFIG
 ################################################################################
 
-$temp_dir = '/tmp'
+$temp_dir = '/tmp/sdpa/'
 
 
 ################################################################################
@@ -51,11 +51,11 @@ end
 
 
 ################################################################################
-# Temporary Files
+# Temporary Files and Directories
 ################################################################################
 
 def out_file
-  File.join $temp_dir, 'sdpa.tmp'
+  File.join $temp_dir, Process.pid
 end
 
 
@@ -75,7 +75,14 @@ end
 
 
 def job_out_file job_id
-  File.expand_path File.join( File.dirname( __FILE__ ), "#{ File.basename( out_file ) }.sh.o#{ job_id }" )
+  File.expand_path File.join( File.dirname( __FILE__ ), "#{ Process.pid }.sh.o#{ job_id }" )
+end
+
+
+def setup_directory
+  unless FileTest.dir?( $temp_dir )
+    Dir.mkdir_p $temp_dir
+  end
 end
 
 
@@ -213,6 +220,7 @@ end
 ################################################################################
 
 begin
+  setup_directory
   create_qsub_sh
   wait_until_finish qsub
 rescue

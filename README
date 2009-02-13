@@ -20,7 +20,3 @@
 
    実行例
     % ./sdpara.rb /tmp/sdpa/medium.dat-s /tmp/sdpa/param.sdpa sdpa 16 1
-
-* ノードの追加方法
-  Torque にノードを追加すれば、自動的にそこに投げられるようになるはず
-  です。
