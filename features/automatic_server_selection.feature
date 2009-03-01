@@ -3,21 +3,25 @@ Feature: automatic server selection
   I want to get a adequate server according to my solver selection
   So that I can submit a job to the server
 
-  Scenario: select a server
-    Given I have not yet created a client
-    When I have chosen sdpa solver
-    And I have created a client
-    Then I should get "laqua.indsys.chuo-u.ac.jp" as a server
+  Scenario Outline: select a server
+    Given I have created a client
+    When I have chosen <solver> solver
+    And I have specified that input file path is /tmp/input
+    And I have specified that parameter file path is /tmp/parameter
+    And I have specified that SSH identity file path is SSH_ID
+    And I have started a client
+    Then I should get "<server>" as a server
 
-  More Examples:
+  Scenarios:
     | solver   | server                                    |
+    | sdpa     | laqua.indsys.chuo-u.ac.jp                 |
     | sdpa_ec2 | ec2-67-202-18-171.compute-1.amazonaws.com |
     | sdpara   | sdpa01.indsys.chuo-u.ac.jp                |
     | sdpa_gmp | opt-laqua.indsys.chuo-u.ac.jp             |
 
 
   Scenario: fail to select a server
-    Given I have not yet created a client
+    Given I have created a client
     When I have chosen INVALID solver
-    And I have created a client
+    And I have started a client
     Then I should get an error: "Invalid solver: INVALID"

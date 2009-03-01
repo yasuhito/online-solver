@@ -1,5 +1,6 @@
-Given /^I have not yet created a client$/ do
-  @client = nil
+Given /^I have created a client$/ do
+  @messenger = StringIO.new( "" )
+  @client = OnlineSolver::Client.new( @messenger, true, true )
 end
 
 
@@ -28,9 +29,8 @@ When /^I have specified that SSH identity file path is (.*)$/ do | ssh_id |
 end
 
 
-When /^I have created a client$/ do
-  @ncpu ||= 0
-  @client = OnlineSolver::Client.new( @solver, @input, @parameter, @ncpu, @ssh_id )
+When /^I have started a client$/ do
+  @client.start @solver, @input, @parameter, @ncpu, @ssh_id
 end
 
 
@@ -39,17 +39,15 @@ Then /^I should get "(.*)" as a server$/ do | server |
 end
 
 
-Then /^I should get a scp command line: "(.*)"$/ do | exp |
-  if exp == 'nil'
-    @client.scp_command.should be_nil
-  else
-    @client.scp_command.should match( Regexp.new( exp ) )
+Then /^I should get a scp command line: (.*)$/ do | command |
+  if command != 'nil'
+    @messenger.string.split( "\n" ).should include( command )
   end
 end
 
 
-Then /^I should get a ssh command line: "(.*)"$/ do | exp |
-  @client.ssh_command.should match( Regexp.new( exp ) )
+Then /^I should get a ssh command line: (.*)$/ do | command |
+  @messenger.string.split( "\n" ).should include( command )
 end
 
 

@@ -1,35 +1,32 @@
+require 'popen3'
+require 'pshell'
+
+
 module OnlineSolver
   class Client
-    def initialize solver, input, parameter, ncpu, ssh_id
+    def initialize messenger, debug = false, dry_run = false
+      @messenger = messenger
+      @debug = debug
+      @dry_run = dry_run
+    end
+
+
+    def start solver, input, parameter, ncpu, ssh_id
+      @messenger.puts "OnlineSolver Client Started"
+
       @solver = solver
       @input = input
       @parameter = parameter
       @ncpu = ncpu
       @ssh_id = ssh_id
-    end
 
-
-    def submit options
-      make_request server, options
-    end
-
-
-    def ssh_command
-      case @solver
-      when :sdpa, :sdpara
-        "ssh #{ ssh_i_option } #{ server } #{ server_command } #{ input_remote } #{ parameter_remote } #{ @solver } #{ @ncpu }"
-      when :sdpa_ec2, :sdpa_gmp
-        "ssh #{ ssh_i_option } #{ server } #{ server_command } #{ input_remote } #{ parameter_remote } #{ @solver }"
-      end
-    end
-
-
-    def scp_command
-      case @solver
-      when :sdpa
-        nil
-      when :sdpa_ec2, :sdpara, :sdpa_gmp
-        "scp #{ ssh_i_option }#{ @input } #{ @parameter } #{ server }:#{ temp_dir }"
+      Popen3::Shell.open do | shell |
+        if scp_command
+          debug scp_command if scp_command
+          shell.exec scp_command unless @dry_run
+        end
+        debug ssh_command
+        shell.exec ssh_command unless @dry_run
       end
     end
 
@@ -54,7 +51,34 @@ module OnlineSolver
     private
     #############################################################################
 
-    
+
+    def debug message
+      if @debug
+        @messenger.puts message
+      end
+    end
+
+
+    def ssh_command
+      case @solver
+      when :sdpa, :sdpara
+        "ssh #{ ssh_i_option }#{ server } #{ server_command } #{ input_remote } #{ parameter_remote } #{ @solver } #{ @ncpu }"
+      when :sdpa_ec2, :sdpa_gmp
+        "ssh #{ ssh_i_option }#{ server } #{ server_command } #{ input_remote } #{ parameter_remote } #{ @solver }"
+      end
+    end
+
+
+    def scp_command
+      case @solver
+      when :sdpa
+        nil
+      when :sdpa_ec2, :sdpara, :sdpa_gmp
+        "scp #{ ssh_i_option }#{ @input } #{ @parameter } #{ server }:#{ temp_dir }"
+      end
+    end
+
+
     def input_remote
       File.join temp_dir, File.basename( @input )
     end
