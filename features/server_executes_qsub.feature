@@ -3,7 +3,6 @@ Feature: server executes qsub
   I want to submit a job using torque
   So that my job properly scheduled
 
-  # FIXME: サーバとクライアントで共通なステップを別の step_definitions/*.rb に移す
   Scenario: execute qsub
     Given I have created a server
     When I have chosen sdpa solver

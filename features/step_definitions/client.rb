@@ -4,16 +4,6 @@ Given /^I have created a client$/ do
 end
 
 
-When /^I have chosen (.*) solver$/ do | solver |
-  @solver = solver.to_sym
-end
-
-
-When /^I have specified that the number of CPU is (.*)$/ do | ncpu |
-  @ncpu = ncpu.to_i
-end
-
-
 When /^I have specified that SSH identity file path is (.*)$/ do | ssh_id |
   @ssh_id = ssh_id if ssh_id != 'nil'
 end
@@ -25,7 +15,7 @@ end
 
 
 Then /^I should get (.*) as a server$/ do | server |
-  @client.server.should == server
+  @client.__send__( :server ).should == server
 end
 
 
@@ -43,6 +33,6 @@ end
 
 Then /^I should get an error: "(.*)"$/ do | message |
   lambda do
-    @client.server
+    @client.__send__ :server
   end.should raise_error( message )
 end

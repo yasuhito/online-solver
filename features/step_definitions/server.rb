@@ -10,23 +10,13 @@ When /^I have specified that the qsub\.sh path is (.*)$/ do | path |
 end
 
 
-When /^I have started the server$/ do
-  @server.start @solver, @ncpu, @input, @output, @parameter
-end
-
-
-When /^I have specified that input file path is (.*)$/ do | path |
-  @input = path
-end
-
-
 When /^I have specified that output file path is (.*)$/ do | path |
   @output = path
 end
 
 
-When /^I have specified that parameter file path is (.*)$/ do | path |
-  @parameter = path
+When /^I have started the server$/ do
+  @server.start @solver, @ncpu, @input, @output, @parameter
 end
 
 

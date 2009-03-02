@@ -1,3 +1,7 @@
+require 'popen3'
+require 'pshell'
+
+
 module OnlineSolver
   class Server
     def initialize messenger, qsub, options
