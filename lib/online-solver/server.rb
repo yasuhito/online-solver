@@ -5,6 +5,7 @@ module OnlineSolver
       @qsub = qsub
       @debug = options[ :debug ]
       @dry_run = options[ :dry_run ]
+      @temp_dir = options[ :temp_dir ] || "/home/online/tmp"
     end
 
 
@@ -17,7 +18,7 @@ module OnlineSolver
 
       create_qsub_sh
       qsub
-      wait_until_job_finished
+      wait_until_job_finished unless @dry_run
     end
 
 
@@ -26,13 +27,8 @@ module OnlineSolver
     ################################################################################
 
 
-    def temp_dir
-      "/home/online/tmp"
-    end
-
-
     def out_file
-      File.join temp_dir, Process.pid.to_s
+      File.join @temp_dir, Process.pid.to_s
     end
 
 
@@ -50,15 +46,10 @@ module OnlineSolver
 
       out = File.open( out_file, 'r' )
       while job_in_progress
-        begin
-          @messenger.print out.sysread( 1024 )
-          sleep 1
-        rescue EOFError
-          # do nothing
-        end
+        @messenger.print out.sysread( 1024 ) rescue EOFError
+        sleep 1
       end
-
-      # 残りの読み込み
+      # read rest of the outputs
       @messenger.print out.read
     end
 
