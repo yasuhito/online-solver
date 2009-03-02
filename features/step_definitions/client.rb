@@ -1,6 +1,6 @@
 Given /^I have created a client$/ do
   @messenger = StringIO.new( "" )
-  @client = OnlineSolver::Client.new( @messenger, true, true )
+  @client = OnlineSolver::Client.new( @messenger, :debug => true, :dry_run => true )
 end
 
 
@@ -14,16 +14,6 @@ When /^I have specified that the number of CPU is (.*)$/ do | ncpu |
 end
 
 
-When /^I have specified that input file path is \/tmp\/input$/ do
-  @input = "/tmp/input"
-end
-
-
-When /^I have specified that parameter file path is \/tmp\/parameter$/ do
-  @parameter = "/tmp/parameter"
-end
-
-
 When /^I have specified that SSH identity file path is (.*)$/ do | ssh_id |
   @ssh_id = ssh_id if ssh_id != 'nil'
 end
@@ -34,7 +24,7 @@ When /^I have started a client$/ do
 end
 
 
-Then /^I should get "(.*)" as a server$/ do | server |
+Then /^I should get (.*) as a server$/ do | server |
   @client.server.should == server
 end
 

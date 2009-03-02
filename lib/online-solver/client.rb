@@ -4,10 +4,10 @@ require 'pshell'
 
 module OnlineSolver
   class Client
-    def initialize messenger, debug = false, dry_run = false
+    def initialize messenger, options
       @messenger = messenger
-      @debug = debug
-      @dry_run = dry_run
+      @debug = options[ :debug ]
+      @dry_run = options[ :dry_run ]
     end
 
 

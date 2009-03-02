@@ -1,4 +1,4 @@
-Feature: ssh to server
+Feature: cilent ssh to server
   As an online solver user
   I want to "ssh command" to server
   So that I can submit a job to remote server via SSH

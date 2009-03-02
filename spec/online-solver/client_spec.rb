@@ -5,20 +5,21 @@ module OnlineSolver
   describe Client do
     before :each do | each |
       @messenger = mock( "messenger" ).as_null_object
-      @client = OnlineSolver::Client.new( @messenger )
     end
 
     
     context 'starting up' do
       it "should send a starting message" do
         @messenger.should_receive( :puts ).with( "OnlineSolver Client Started" )
-        @client.start :sdpa, "INPUT", "PARAMETER", "NCPU", "SSH_ID"
+        client = OnlineSolver::Client.new( @messenger, :debug => true, :dry_run => true )
+        client.start :sdpa, "INPUT", "PARAMETER", "NCPU", "SSH_ID"
       end
     end
 
 
     context 'submitting a job' do
       before :each do
+        @client = OnlineSolver::Client.new( @messenger, :debug => true, :dry_run => false )
         @shell = mock( "shell" ).as_null_object
         Popen3::Shell.should_receive( :open ).and_yield( @shell ).at_most( :once )
       end

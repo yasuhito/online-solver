@@ -1,4 +1,4 @@
-Feature: scp files to server
+Feature: client scp files to server
   As an online solver user
   I want to scp input and parameter files to server
   So that I can execute a job on remote server

@@ -1,4 +1,4 @@
-Feature: automatic server selection
+Feature: client automatically selects a server
   As an online solver user
   I want to get a adequate server according to my solver selection
   So that I can submit a job to the server
@@ -10,7 +10,7 @@ Feature: automatic server selection
     And I have specified that parameter file path is /tmp/parameter
     And I have specified that SSH identity file path is SSH_ID
     And I have started a client
-    Then I should get "<server>" as a server
+    Then I should get <server> as a server
 
   Scenarios:
     | solver   | server                                    |
