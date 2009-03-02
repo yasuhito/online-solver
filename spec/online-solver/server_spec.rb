@@ -14,11 +14,11 @@ module OnlineSolver
     context 'executing a job' do
       before :each do
         @server = Server.new( @messenger, @qsub, :debug => true, :dry_run => false )
+        @server.should_receive( :wait_until_job_finished ).any_number_of_times
       end
 
 
       it "should exec qsub" do
-        @server.should_receive( :wait_until_job_finished ).once
         @qsub.should_receive( :path ).twice.and_return( "qsub.sh" )
         @shell.should_receive( :exec ).with( "qsub qsub.sh" )
         @server.start :sdpa, 1, "INPUT", "OUTPUT", "PARAMETER"
@@ -26,10 +26,17 @@ module OnlineSolver
 
 
       it "should redirect outputs to messenger" do
-        @server.should_receive( :wait_until_job_finished ).once
         @shell.should_receive( :on_stderr ).and_yield( "STDERR" )
         @messenger.should_receive( :puts ).with( "STDERR" )
         @server.start :sdpa, 1, "INPUT", "OUTPUT", "PARAMETER"
+      end
+
+
+      it "should raise if qsub failed" do
+        @shell.should_receive( :on_failure ).and_yield
+        lambda do
+          @server.start :sdpa, 1, "INPUT", "OUTPUT", "PARAMETER"
+        end.should raise_error( RuntimeError )
       end
     end
 

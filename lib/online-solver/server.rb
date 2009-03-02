@@ -19,7 +19,6 @@ module OnlineSolver
       @input = input
       @output = output
       @parameter = parameter
-
       create_qsub_sh
       qsub
       wait_until_job_finished unless @dry_run
@@ -62,6 +61,10 @@ module OnlineSolver
       Popen3::Shell.open do | shell |
         shell.on_stderr do | line |
           @messenger.puts line
+        end
+
+        shell.on_failure do
+          raise %{Failed to exec "#{ command }"}
         end
 
         @messenger.puts command if @debug
@@ -115,7 +118,7 @@ module OnlineSolver
     def create_qsub_sh
       case @solver
       when :sdpa
-        @qsub.print <<-EOF
+        script = <<-EOF
 #!/bin/sh
 #PBS -l ncpus=#{ @ncpu }
 #PBS -l nodes=1
@@ -124,7 +127,7 @@ export OMP_NUM_THREADS=#{ @ncpu }
 #{ solver_path } #{ solver_arguments }
 EOF
       when :sdpa_ec2
-        @qsub.print <<-EOF
+        script = <<-EOF
 #!/bin/sh
 #PBS -l ncpus=1
 #PBS -l nodes=1
@@ -135,7 +138,7 @@ export OMP_NUM_THREADS=1
 #{ solver_path } #{ solver_arguments }
 EOF
       when :sdpa_gmp
-        @qsub.print <<-EOF
+        script = <<-EOF
 #!/bin/sh
 #PBS -l ncpus=1
 #PBS -l nodes=1
@@ -143,7 +146,7 @@ EOF
 #{ solver_path } #{ solver_arguments }
 EOF
       when :sdpara
-        @qsub.print <<-EOF
+        script = <<-EOF
 #!/bin/sh
 #PBS -l ncpus=#{ mpi_ncpus }
 #PBS -l nodes=#{ mpi_nodes }
@@ -151,6 +154,11 @@ EOF
 #{ solver_path } #{ solver_arguments }
 EOF
       end
+      script.split( "\n" ).each do | each |
+        @messenger.puts "> #{ each }"
+      end
+      @qsub.print script
+      @qsub.flush
     end
   end
 end

@@ -1,0 +1,95 @@
+#!/usr/bin/env ruby
+
+
+$LOAD_PATH.unshift File.join( File.dirname( __FILE__ ), '../lib' )
+
+require 'stringio'
+require 'online-solver'
+require 'optparse'
+
+
+################################################################################
+# Parse commandline options
+################################################################################
+
+$solver = nil
+$ncpu = nil
+$input = nil
+$output = nil
+$parameter = nil
+$debug = false
+$dry_run = false
+
+opts = OptionParser.new
+
+opts.banner = 'usage: server --solver SOLVER --ncpu NCPU --input INPUT --output OUTPUT --parameter PARAMETER [OPTIONS..]'
+
+opts.separator " "
+
+opts.on( '-s', "--solver SOLVER", String, "SDPA solver name." ) do | v |
+  $solver = v.to_sym
+end
+
+opts.on( '-c', '--ncpu NCPU', Integer, 'Number of CPUs to use.' ) do | v |
+  $ncpu = v
+end
+
+opts.on( '-i', '--input INPUT', String, 'Input file to SDPA solver.' ) do | v |
+  $input = v
+end
+
+opts.on( '-o', '--output OUTPUT', String, 'Output file of SDPA solver.' ) do | v |
+  $output = v
+end
+
+opts.on( '-p', '--parameter PARAMETER', String, 'Parameter file to SDPA solver.' ) do | v |
+  $parameter = v
+end
+
+opts.separator " "
+
+opts.on( '-d', '--debug', 'Enable debug option.' ) do
+  $debug = true
+end
+
+opts.on( '-n', '--dry-run', 'Print the commands that would be executed, but do not execute them.' ) do
+  $dry_run = true
+end
+
+opts.on( '-h', '--help', 'Show this help message.' ) do
+  puts opts
+  exit 1
+end
+
+opts.parse! ARGV
+
+if $solver.nil? or $ncpu == 0 or $input.nil? or $output.nil? or $parameter.nil?
+  puts opts
+  exit 1
+end
+
+
+
+################################################################################
+# main
+################################################################################
+
+begin
+  if $dry_run
+    qsub = StringIO.new( "" )
+    def qsub.path
+      $output + '.sh'
+    end
+  else
+    qsub = File.open( $output + ".sh", 'w' )
+  end
+  server = OnlineSolver::Server.new( $stderr, qsub, :debug => $debug, :dry_run => $dry_run )
+  server.start $solver, $ncpu, $input, $output, $parameter
+rescue => e
+  STDERR.puts 'ERROR: ' + e.message
+  if $debug
+    e.backtrace.each do | each |
+      STDERR.puts each
+    end
+  end
+end
