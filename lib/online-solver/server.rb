@@ -49,7 +49,7 @@ module OnlineSolver
         @messenger.print out.sysread( 1024 ) rescue EOFError
         sleep 1
       end
-      # read rest of the outputs
+      # read rest of the output
       @messenger.print out.read
     end
 
