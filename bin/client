@@ -37,7 +37,7 @@ opts.on( '-c', '--ncpu NUM', Integer, 'Number of CPUs to use.' ) do | v |
   $ncpu = v
 end
 
-opts.on( '-i', '--input FILE', String, 'Input file to SDPA solver.' ) do | v |
+opts.on( '-f', '--input FILE', String, 'Input file to SDPA solver.' ) do | v |
   $input = v
 end
 
@@ -45,7 +45,7 @@ opts.on( '-p', '--parameter FILE', String, 'Parameter file to SDPA solver.' ) do
   $parameter = v
 end
 
-opts.on( '-i', '-ssh-id SSH_ID', String, 'SSH identity file.' ) do | v |
+opts.on( '-i', '--ssh-id SSH_ID', String, 'SSH identity file.' ) do | v |
   $ssh_id = v
 end
 
