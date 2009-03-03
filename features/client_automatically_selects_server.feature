@@ -6,6 +6,7 @@ Feature: client automatically selects a server
   Scenario Outline: select a server
     Given I have created a client
     When I have chosen <solver> solver
+    And I have specified that the number of CPU is 4
     And I have specified that input file path is /tmp/input
     And I have specified that parameter file path is /tmp/parameter
     And I have specified that SSH identity file path is SSH_ID
@@ -23,5 +24,9 @@ Feature: client automatically selects a server
   Scenario: fail to select a server
     Given I have created a client
     When I have chosen INVALID solver
+    And I have specified that the number of CPU is 4
+    And I have specified that input file path is /tmp/input
+    And I have specified that parameter file path is /tmp/parameter
+    And I have specified that SSH identity file path is SSH_ID
     And I have started a client
     Then I should get an error: "Invalid solver: INVALID"

@@ -10,7 +10,7 @@ end
 
 
 When /^I have started a client$/ do
-  @client.start @solver, @input, @parameter, @ncpu, @ssh_id
+  @client.start @solver, @ncpu, @input, @parameter, @ssh_id
 end
 
 
@@ -35,4 +35,9 @@ Then /^I should get an error: "(.*)"$/ do | message |
   lambda do
     @client.__send__ :server
   end.should raise_error( message )
+end
+
+
+Then /^I should get log file$/ do
+  @messenger.string.split( "\n" ).size.should >= 2
 end

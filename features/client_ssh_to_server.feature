@@ -14,29 +14,29 @@ Feature: cilent ssh to server
     Then I should get a ssh command line: <command>
 
   Scenarios: sdpa
-    | solver   | ncpu | ssh_id            | command                                                                                                              |
-    | sdpa     | 4    | ~/.ssh/online-key | ssh -i ~/.ssh/online-key laqua.indsys.chuo-u.ac.jp /home/online/bin/server.rb /home/online/tmp/input /home/online/tmp/parameter sdpa 4     |
-    | sdpa     | 1    | ~/.ssh/online-key | ssh -i ~/.ssh/online-key laqua.indsys.chuo-u.ac.jp /home/online/bin/server.rb /home/online/tmp/input /home/online/tmp/parameter sdpa 1     |
-    | sdpa     | 4    | nil               | ssh laqua.indsys.chuo-u.ac.jp /home/online/bin/server.rb /home/online/tmp/input /home/online/tmp/parameter sdpa 4                          |
-    | sdpa     | 1    | nil               | ssh laqua.indsys.chuo-u.ac.jp /home/online/bin/server.rb /home/online/tmp/input /home/online/tmp/parameter sdpa 1                          |
+    | solver   | ncpu | ssh_id            | command                                                                                                                                                                 |
+    | sdpa     | 4    | ~/.ssh/online-key | ssh -i ~/.ssh/online-key laqua.indsys.chuo-u.ac.jp /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpa --ncpu 4 |
+    | sdpa     | 1    | ~/.ssh/online-key | ssh -i ~/.ssh/online-key laqua.indsys.chuo-u.ac.jp /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpa --ncpu 1 |
+    | sdpa     | 4    | nil               | ssh laqua.indsys.chuo-u.ac.jp /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpa --ncpu 4                      |
+    | sdpa     | 1    | nil               | ssh laqua.indsys.chuo-u.ac.jp /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpa --ncpu 1                      |
 
   Scenarios: sdpara
-    | solver   | ncpu | ssh_id            | command                                                                                                              |
-    | sdpara   | 4    | ~/.ssh/online-key | ssh -i ~/.ssh/online-key sdpa01.indsys.chuo-u.ac.jp /home/online/bin/server.rb /home/online/tmp/input /home/online/tmp/parameter sdpara 4   |
-    | sdpara   | 1    | ~/.ssh/online-key | ssh -i ~/.ssh/online-key sdpa01.indsys.chuo-u.ac.jp /home/online/bin/server.rb /home/online/tmp/input /home/online/tmp/parameter sdpara 1   |
-    | sdpara   | 4    | nil               | ssh sdpa01.indsys.chuo-u.ac.jp /home/online/bin/server.rb /home/online/tmp/input /home/online/tmp/parameter sdpara 4                        |
-    | sdpara   | 1    | nil               | ssh sdpa01.indsys.chuo-u.ac.jp /home/online/bin/server.rb /home/online/tmp/input /home/online/tmp/parameter sdpara 1                        |
+    | solver   | ncpu | ssh_id            | command                                                                                                                                                                    |
+    | sdpara   | 4    | ~/.ssh/online-key | ssh -i ~/.ssh/online-key sdpa01.indsys.chuo-u.ac.jp /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpara --ncpu 4 |
+    | sdpara   | 1    | ~/.ssh/online-key | ssh -i ~/.ssh/online-key sdpa01.indsys.chuo-u.ac.jp /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpara --ncpu 1 |
+    | sdpara   | 4    | nil               | ssh sdpa01.indsys.chuo-u.ac.jp /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpara --ncpu 4                      |
+    | sdpara   | 1    | nil               | ssh sdpa01.indsys.chuo-u.ac.jp /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpara --ncpu 1                      |
 
   Scenarios: sdpa_ec2
-    | solver   | ncpu | ssh_id            | command                                                                                                              |
-    | sdpa_ec2 | 4    | ~/.ssh/online-key | ssh -i ~/.ssh/online-key ec2-67-202-18-171.compute-1.amazonaws.com /home/online/bin/server.rb /home/online/tmp/input /home/online/tmp/parameter sdpa_ec2  |
-    | sdpa_ec2 | 1    | ~/.ssh/online-key | ssh -i ~/.ssh/online-key ec2-67-202-18-171.compute-1.amazonaws.com /home/online/bin/server.rb /home/online/tmp/input /home/online/tmp/parameter sdpa_ec2  |
-    | sdpa_ec2 | 4    | nil               | ssh ec2-67-202-18-171.compute-1.amazonaws.com /home/online/bin/server.rb /home/online/tmp/input /home/online/tmp/parameter sdpa_ec2                       |
-    | sdpa_ec2 | 1    | nil               | ssh ec2-67-202-18-171.compute-1.amazonaws.com /home/online/bin/server.rb /home/online/tmp/input /home/online/tmp/parameter sdpa_ec2                       |
+    | solver   | ncpu | ssh_id            | command                                                                                                                                                                            |
+    | sdpa_ec2 | 4    | ~/.ssh/online-key | ssh -i ~/.ssh/online-key ec2-67-202-18-171.compute-1.amazonaws.com /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpa_ec2 |
+    | sdpa_ec2 | 1    | ~/.ssh/online-key | ssh -i ~/.ssh/online-key ec2-67-202-18-171.compute-1.amazonaws.com /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpa_ec2 |
+    | sdpa_ec2 | 4    | nil               | ssh ec2-67-202-18-171.compute-1.amazonaws.com /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpa_ec2                      |
+    | sdpa_ec2 | 1    | nil               | ssh ec2-67-202-18-171.compute-1.amazonaws.com /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpa_ec2                      |
  
   Scenarios: sdpa_gmp
-    | solver   | ncpu | ssh_id            | command                                                                                                              |
-    | sdpa_gmp | 4    | ~/.ssh/online-key | ssh -i ~/.ssh/online-key opt-laqua.indsys.chuo-u.ac.jp /home/online/bin/server.rb /home/online/tmp/input /home/online/tmp/parameter sdpa_gmp  |
-    | sdpa_gmp | 1    | ~/.ssh/online-key | ssh -i ~/.ssh/online-key opt-laqua.indsys.chuo-u.ac.jp /home/online/bin/server.rb /home/online/tmp/input /home/online/tmp/parameter sdpa_gmp  |
-    | sdpa_gmp | 4    | nil               | ssh opt-laqua.indsys.chuo-u.ac.jp /home/online/bin/server.rb /home/online/tmp/input /home/online/tmp/parameter sdpa_gmp                       |
-    | sdpa_gmp | 1    | nil               | ssh opt-laqua.indsys.chuo-u.ac.jp /home/online/bin/server.rb /home/online/tmp/input /home/online/tmp/parameter sdpa_gmp                       |
+    | solver   | ncpu | ssh_id            | command                                                                                                                                                                |
+    | sdpa_gmp | 4    | ~/.ssh/online-key | ssh -i ~/.ssh/online-key opt-laqua.indsys.chuo-u.ac.jp /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpa_gmp |
+    | sdpa_gmp | 1    | ~/.ssh/online-key | ssh -i ~/.ssh/online-key opt-laqua.indsys.chuo-u.ac.jp /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpa_gmp |
+    | sdpa_gmp | 4    | nil               | ssh opt-laqua.indsys.chuo-u.ac.jp /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpa_gmp                      |
+    | sdpa_gmp | 1    | nil               | ssh opt-laqua.indsys.chuo-u.ac.jp /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpa_gmp                      |

@@ -1,22 +1,9 @@
-* ファイルの説明
-** call_sdpa.rb
-   SDPA のリモート実行用インタフェース。
-   SDPA の出力はイテレーションごとに、第三引数に指定した出力ファイルへ出力される。
-   Web インタフェース (PHP とか) はこのファイルを定期的にリロードするこ
-   とで、実行中の状態を更新できる。
+./bin/client
+   オンラインソルバーのクライアントプログラム。
+   SDPA の出力はイテレーションごとに --log に指定したファイルへリアル
+   タイムに出力される。
+   詳しくは、./bin/client --help を参照。
 
-   使い方:
-     call_sdpara.rb 入力ファイル パラメータ 出力ファイル ソルバ CPU数
-
-   実行例:
-     % ./call_sdpa.rb /tmp/sdpa/medium.dat-s /tmp/sdpa/param.sdpa /tmp/out sdpa 16
-
-** sdpara.rb
-   SDPA を Torque 経由で実行するためのラッパースクリプト。
-   SSH 経由で call_sdpa.rb から呼ばれる。
-
-   実行方法:
-    sdpara.rb 入力ファイル パラメータ ソルバ CPU数 デバッフラグ
-
-   実行例
-    % ./sdpara.rb /tmp/sdpa/medium.dat-s /tmp/sdpa/param.sdpa sdpa 16 1
+./bin/server
+   オンラインソルバーのサーバプログラム。
+   クライアントから SSH 経由で呼ばれる。

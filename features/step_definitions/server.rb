@@ -1,22 +1,12 @@
 Given /^I have created a server$/ do
-  @qsub = Qsub.new( "" )
+  @qsub = StringIO.new( "" )
   @messenger = StringIO.new( "" )
-  @server = OnlineSolver::Server.new( @messenger, @qsub, :debug => true, :dry_run => true )
-end
-
-
-When /^I have specified that the qsub\.sh path is (.*)$/ do | path |
-  @qsub.path = path
-end
-
-
-When /^I have specified that output file path is (.*)$/ do | path |
-  @output = path
+  @server = OnlineSolver::Server.new( @messenger, :qsub => @qsub, :debug => true, :dry_run => true )
 end
 
 
 When /^I have started the server$/ do
-  @server.start @solver, @ncpu, @input, @output, @parameter
+  @server.start @solver, @ncpu, @input, @parameter
 end
 
 
@@ -25,6 +15,8 @@ Then /^I should get qsub.sh containing line: (.*)$/ do | line |
 end
 
 
-Then /^I should observe debug print containing qsub command line: "(.*)"$/ do | line |
-  @messenger.string.split( "\n" ).should include( line )
+Then /^I should observe debug print containing qsub command line: "(.*)"$/ do | exp |
+  @messenger.string.split( "\n" ).inject( false ) do | result, each |
+    Regexp.new( exp )=~ each
+  end.should be_true
 end

@@ -11,16 +11,25 @@ module OnlineSolver
     end
 
 
-    def start solver, input, parameter, ncpu, ssh_id
-      @messenger.puts "OnlineSolver Client Started"
+    def start solver, ncpu, input, parameter, ssh_id
+      if @dry_run
+        @messenger.puts "OnlineSolver Client Started (Dry Run)"
+      else
+        @messenger.puts "OnlineSolver Client Started"
+      end
 
       @solver = solver
+      @ncpu = ncpu
       @input = input
       @parameter = parameter
-      @ncpu = ncpu
       @ssh_id = ssh_id
 
       Popen3::Shell.open do | shell |
+        shell.on_stderr do | line |
+          @messenger.puts line
+          @messenger.flush
+        end
+
         if scp_command
           debug scp_command if scp_command
           shell.exec scp_command unless @dry_run
@@ -62,9 +71,9 @@ module OnlineSolver
     def ssh_command
       case @solver
       when :sdpa, :sdpara
-        "ssh #{ ssh_i_option }#{ server } #{ server_command } #{ input_remote } #{ parameter_remote } #{ @solver } #{ @ncpu }"
+        "ssh #{ ssh_i_option }#{ server } #{ server_command } --input #{ input_remote } --parameter #{ parameter_remote } --solver #{ @solver } --ncpu #{ @ncpu }"
       when :sdpa_ec2, :sdpa_gmp
-        "ssh #{ ssh_i_option }#{ server } #{ server_command } #{ input_remote } #{ parameter_remote } #{ @solver }"
+        "ssh #{ ssh_i_option }#{ server } #{ server_command } --input #{ input_remote } --parameter #{ parameter_remote } --solver #{ @solver }"
       end
     end
 
@@ -100,7 +109,7 @@ module OnlineSolver
 
 
     def server_command
-      File.join online_home, "bin/server.rb"
+      File.join online_home, "bin/server"
     end
 
 

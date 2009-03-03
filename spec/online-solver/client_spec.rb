@@ -10,14 +10,14 @@ module OnlineSolver
     
     context 'starting up' do
       it "should send a starting message" do
-        @messenger.should_receive( :puts ).with( "OnlineSolver Client Started" )
+        @messenger.should_receive( :puts ).with( "OnlineSolver Client Started (Dry Run)" )
         client = OnlineSolver::Client.new( @messenger, :debug => true, :dry_run => true )
-        client.start :sdpa, "INPUT", "PARAMETER", "NCPU", "SSH_ID"
+        client.start :sdpa, "NCPU", "INPUT", "PARAMETER", "SSH_ID"
       end
     end
 
 
-    context 'submitting a job' do
+    context 'about to submit a job' do
       before :each do
         @client = OnlineSolver::Client.new( @messenger, :debug => true, :dry_run => false )
         @shell = mock( "shell" ).as_null_object
@@ -28,13 +28,13 @@ module OnlineSolver
       context 'to sdpa solver' do
         it "should not scp" do
           @client.should_not_receive( :exec ).with( /^scp/ )
-          @client.start :sdpa, "INPUT", "PARAMETER", "NCPU", "SSH_ID"
+          @client.start :sdpa, "NCPU", "INPUT", "PARAMETER", "SSH_ID"
         end
         
 
         it "should ssh to laqua" do
           @shell.should_receive( :exec ).with( /^ssh .* laqua.indsys.chuo-u.ac.jp/ )
-          @client.start :sdpa, "INPUT", "PARAMETER", "NCPU", "SSH_ID"
+          @client.start :sdpa, "NCPU", "INPUT", "PARAMETER", "SSH_ID"
         end
       end
 
@@ -42,13 +42,13 @@ module OnlineSolver
       context 'to sdpa_ec2 solver' do
         it "should scp to EC2" do
           @shell.should_receive( :exec ).with( /^scp .* ec2-67-202-18-171.compute-1.amazonaws.com:.*/ )
-          @client.start :sdpa_ec2, "INPUT", "PARAMETER", "NCPU", "SSH_ID"
+          @client.start :sdpa_ec2, "NCPU", "INPUT", "PARAMETER", "SSH_ID"
         end
 
 
         it "should ssh to EC2" do
           @shell.should_receive( :exec ).with( /^ssh .* ec2-67-202-18-171.compute-1.amazonaws.com/ )
-          @client.start :sdpa_ec2, "INPUT", "PARAMETER", "NCPU", "SSH_ID"
+          @client.start :sdpa_ec2, "NCPU", "INPUT", "PARAMETER", "SSH_ID"
         end
       end
 
@@ -56,13 +56,13 @@ module OnlineSolver
       context 'to sdpara solver' do
         it 'should scp to sdpa01' do
           @shell.should_receive( :exec ).with( /^scp .* sdpa01.indsys.chuo-u.ac.jp:.*/ )
-          @client.start :sdpara, "INPUT", "PARAMETER", "NCPU", "SSH_ID"
+          @client.start :sdpara, "NCPU", "INPUT", "PARAMETER", "SSH_ID"
         end
 
 
         it 'should ssh to sdpa01' do
           @shell.should_receive( :exec ).with( /^ssh .* sdpa01.indsys.chuo-u.ac.jp/ )
-          @client.start :sdpara, "INPUT", "PARAMETER", "NCPU", "SSH_ID"
+          @client.start :sdpara, "NCPU", "INPUT", "PARAMETER", "SSH_ID"
         end
       end
 
@@ -70,14 +70,27 @@ module OnlineSolver
       context 'to sdpa_gmp solver' do
         it 'should scp to opt-laqua' do
           @shell.should_receive( :exec ).with( /^scp .* opt-laqua.indsys.chuo-u.ac.jp:.*/ )
-          @client.start :sdpa_gmp, "INPUT", "PARAMETER", "NCPU", "SSH_ID"
+          @client.start :sdpa_gmp, "NCPU", "INPUT", "PARAMETER", "SSH_ID"
         end
 
 
         it 'should ssh to opt-laqua' do
           @shell.should_receive( :exec ).with( /^ssh .* opt-laqua.indsys.chuo-u.ac.jp/ )
-          @client.start :sdpa_gmp, "INPUT", "PARAMETER", "NCPU", "SSH_ID"
+          @client.start :sdpa_gmp, "NCPU", "INPUT", "PARAMETER", "SSH_ID"
         end
+      end
+    end
+
+
+    context 'executing a job' do
+      it "should log remote job outputs" do
+        messenger = StringIO.new( "" )
+        @client = OnlineSolver::Client.new( messenger, :debug => true, :dry_run => true )
+        @shell = mock( "shell" ).as_null_object
+        @shell.should_receive( :on_stderr ).once.and_yield( "STDERR" )
+        Popen3::Shell.should_receive( :open ).and_yield( @shell ).at_most( :once )
+        @client.start :sdpa, "NCPU", "INPUT", "PARAMETER", "SSH_ID"
+        messenger.string.split( "\n" ).should include( "STDERR" )
       end
     end
   end

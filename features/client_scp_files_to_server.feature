@@ -6,6 +6,7 @@ Feature: client scp files to server
   Scenario Outline: copy files to server
     Given I have created a client
     When I have chosen <solver> solver
+    And I have specified that the number of CPU is 4
     And I have specified that input file path is /tmp/input
     And I have specified that parameter file path is /tmp/parameter
     And I have specified that SSH identity file path is <ssh_id>

@@ -1,23 +1,27 @@
 require 'popen3'
 require 'pshell'
+require 'stringio'
 
 
 module OnlineSolver
   class Server
-    def initialize messenger, qsub, options
+    def initialize messenger, options
       @messenger = messenger
-      @qsub = qsub
       @debug = options[ :debug ]
       @dry_run = options[ :dry_run ]
       @temp_dir = options[ :temp_dir ] || "/home/online/tmp"
+      if @dry_run and options[ :qsub ].nil?
+        @qsub = StringIO.new( "" )
+      else
+        @qsub = options[ :qsub ] || File.open( qsub_file, 'w' )
+      end
     end
 
 
-    def start solver, ncpu, input, output, parameter
+    def start solver, ncpu, input, parameter
       @solver = solver
       @ncpu = ncpu
       @input = input
-      @output = output
       @parameter = parameter
       create_qsub_sh
       qsub
@@ -28,6 +32,11 @@ module OnlineSolver
     ################################################################################
     private
     ################################################################################
+
+
+    def qsub_file
+      File.join @temp_dir, Process.pid.to_s + ".sh"
+    end
 
 
     def out_file
@@ -74,7 +83,7 @@ module OnlineSolver
 
 
     def command
-      "qsub #{ @qsub.path }"
+      "qsub #{ qsub_file }"
     end
 
 
@@ -111,7 +120,7 @@ module OnlineSolver
 
 
     def solver_arguments
-      "-ds #{ @input } -o #{ @output } -p #{ @parameter }"      
+      "-ds #{ @input } -p #{ @parameter }"      
     end
 
 
