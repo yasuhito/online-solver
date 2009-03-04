@@ -19,16 +19,16 @@ Feature: client scp files to server
     | sdpa     | nil               | nil                                                                     |
 
   Scenarios: sdpara
-    | solver   | ssh_id            | command                                                                                        |
-    | sdpara   | ~/.ssh/online-key | scp -i ~/.ssh/online-key /tmp/input /tmp/parameter sdpa01.indsys.chuo-u.ac.jp:/home/online/tmp |
-    | sdpara   | nil               | scp /tmp/input /tmp/parameter sdpa01.indsys.chuo-u.ac.jp:/home/online/tmp                      |
+    | solver   | ssh_id            | command                                                                                               |
+    | sdpara   | ~/.ssh/online-key | scp -i ~/.ssh/online-key /tmp/input /tmp/parameter online@sdpa01.indsys.chuo-u.ac.jp:/home/online/tmp |
+    | sdpara   | nil               | scp /tmp/input /tmp/parameter online@sdpa01.indsys.chuo-u.ac.jp:/home/online/tmp                      |
 
   Scenarios: sdpa_ec2
-    | solver   | ssh_id            | command                                                                                                       |
-    | sdpa_ec2 | ~/.ssh/online-key | scp -i ~/.ssh/online-key /tmp/input /tmp/parameter ec2-67-202-18-171.compute-1.amazonaws.com:/home/online/tmp |
-    | sdpa_ec2 | nil               | scp /tmp/input /tmp/parameter ec2-67-202-18-171.compute-1.amazonaws.com:/home/online/tmp                      |
+    | solver   | ssh_id            | command                                                                                                              |
+    | sdpa_ec2 | ~/.ssh/online-key | scp -i ~/.ssh/online-key /tmp/input /tmp/parameter online@ec2-67-202-18-171.compute-1.amazonaws.com:/home/online/tmp |
+    | sdpa_ec2 | nil               | scp /tmp/input /tmp/parameter online@ec2-67-202-18-171.compute-1.amazonaws.com:/home/online/tmp                      |
 
   Scenarios: sdpa_gmp
-    | solver   | ssh_id            | command                                                                                           |
-    | sdpa_gmp | ~/.ssh/online-key | scp -i ~/.ssh/online-key /tmp/input /tmp/parameter opt-laqua.indsys.chuo-u.ac.jp:/home/online/tmp |
-    | sdpa_gmp | nil               | scp /tmp/input /tmp/parameter opt-laqua.indsys.chuo-u.ac.jp:/home/online/tmp                      |
+    | solver   | ssh_id            | command                                                                                                  |
+    | sdpa_gmp | ~/.ssh/online-key | scp -i ~/.ssh/online-key /tmp/input /tmp/parameter online@opt-laqua.indsys.chuo-u.ac.jp:/home/online/tmp |
+    | sdpa_gmp | nil               | scp /tmp/input /tmp/parameter online@opt-laqua.indsys.chuo-u.ac.jp:/home/online/tmp                      |

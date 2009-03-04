@@ -64,6 +64,7 @@ module OnlineSolver
     def debug message
       if @debug
         @messenger.puts message
+        @messenger.flush
       end
     end
 
@@ -71,9 +72,9 @@ module OnlineSolver
     def ssh_command
       case @solver
       when :sdpa, :sdpara
-        "ssh #{ ssh_i_option }#{ server } #{ server_command } --input #{ input_remote } --parameter #{ parameter_remote } --solver #{ @solver } --ncpu #{ @ncpu }"
+        "ssh #{ ssh_i_option }online@#{ server } #{ server_command } --input #{ input_remote } --parameter #{ parameter_remote } --solver #{ @solver } --ncpu #{ @ncpu }"
       when :sdpa_ec2, :sdpa_gmp
-        "ssh #{ ssh_i_option }#{ server } #{ server_command } --input #{ input_remote } --parameter #{ parameter_remote } --solver #{ @solver }"
+        "ssh #{ ssh_i_option }online@#{ server } #{ server_command } --input #{ input_remote } --parameter #{ parameter_remote } --solver #{ @solver }"
       end
     end
 
@@ -83,7 +84,7 @@ module OnlineSolver
       when :sdpa
         nil
       when :sdpa_ec2, :sdpara, :sdpa_gmp
-        "scp #{ ssh_i_option }#{ @input } #{ @parameter } #{ server }:#{ temp_dir }"
+        "scp #{ ssh_i_option }#{ @input } #{ @parameter } online@#{ server }:#{ temp_dir }"
       end
     end
 

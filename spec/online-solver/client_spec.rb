@@ -33,7 +33,7 @@ module OnlineSolver
         
 
         it "should ssh to laqua" do
-          @shell.should_receive( :exec ).with( /^ssh .* laqua.indsys.chuo-u.ac.jp/ )
+          @shell.should_receive( :exec ).with( /^ssh .* online@laqua.indsys.chuo-u.ac.jp/ )
           @client.start :sdpa, "NCPU", "INPUT", "PARAMETER", "SSH_ID"
         end
       end
@@ -41,13 +41,13 @@ module OnlineSolver
 
       context 'to sdpa_ec2 solver' do
         it "should scp to EC2" do
-          @shell.should_receive( :exec ).with( /^scp .* ec2-67-202-18-171.compute-1.amazonaws.com:.*/ )
+          @shell.should_receive( :exec ).with( /^scp .* online@ec2-67-202-18-171.compute-1.amazonaws.com:.*/ )
           @client.start :sdpa_ec2, "NCPU", "INPUT", "PARAMETER", "SSH_ID"
         end
 
 
         it "should ssh to EC2" do
-          @shell.should_receive( :exec ).with( /^ssh .* ec2-67-202-18-171.compute-1.amazonaws.com/ )
+          @shell.should_receive( :exec ).with( /^ssh .* online@ec2-67-202-18-171.compute-1.amazonaws.com/ )
           @client.start :sdpa_ec2, "NCPU", "INPUT", "PARAMETER", "SSH_ID"
         end
       end
@@ -55,13 +55,13 @@ module OnlineSolver
 
       context 'to sdpara solver' do
         it 'should scp to sdpa01' do
-          @shell.should_receive( :exec ).with( /^scp .* sdpa01.indsys.chuo-u.ac.jp:.*/ )
+          @shell.should_receive( :exec ).with( /^scp .* online@sdpa01.indsys.chuo-u.ac.jp:.*/ )
           @client.start :sdpara, "NCPU", "INPUT", "PARAMETER", "SSH_ID"
         end
 
 
         it 'should ssh to sdpa01' do
-          @shell.should_receive( :exec ).with( /^ssh .* sdpa01.indsys.chuo-u.ac.jp/ )
+          @shell.should_receive( :exec ).with( /^ssh .* online@sdpa01.indsys.chuo-u.ac.jp/ )
           @client.start :sdpara, "NCPU", "INPUT", "PARAMETER", "SSH_ID"
         end
       end
@@ -69,13 +69,13 @@ module OnlineSolver
 
       context 'to sdpa_gmp solver' do
         it 'should scp to opt-laqua' do
-          @shell.should_receive( :exec ).with( /^scp .* opt-laqua.indsys.chuo-u.ac.jp:.*/ )
+          @shell.should_receive( :exec ).with( /^scp .* online@opt-laqua.indsys.chuo-u.ac.jp:.*/ )
           @client.start :sdpa_gmp, "NCPU", "INPUT", "PARAMETER", "SSH_ID"
         end
 
 
         it 'should ssh to opt-laqua' do
-          @shell.should_receive( :exec ).with( /^ssh .* opt-laqua.indsys.chuo-u.ac.jp/ )
+          @shell.should_receive( :exec ).with( /^ssh .* online@opt-laqua.indsys.chuo-u.ac.jp/ )
           @client.start :sdpa_gmp, "NCPU", "INPUT", "PARAMETER", "SSH_ID"
         end
       end
