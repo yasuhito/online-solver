@@ -4,6 +4,9 @@ require 'pshell'
 
 module OnlineSolver
   class Client
+    include OnlineSolver
+
+
     def initialize messenger, options
       @messenger = messenger
       @debug = options[ :debug ]
@@ -96,21 +99,6 @@ module OnlineSolver
 
     def parameter_remote
       File.join temp_dir, File.basename( @parameter )
-    end
-
-
-    def online_home
-      "/home/online"
-    end
-
-
-    def temp_dir
-      File.join online_home, "tmp"
-    end
-
-
-    def server_command
-      File.join online_home, "bin/server"
     end
 
 

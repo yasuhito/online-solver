@@ -5,11 +5,14 @@ require 'stringio'
 
 module OnlineSolver
   class Server
+    include OnlineSolver
+
+
     def initialize messenger, options
       @messenger = messenger
       @debug = options[ :debug ]
       @dry_run = options[ :dry_run ]
-      @temp_dir = options[ :temp_dir ] || "/home/online/tmp"
+      @temp_dir = options[ :temp_dir ] || temp_dir
       if @dry_run and options[ :qsub ].nil?
         @qsub = StringIO.new( "" )
       else
@@ -120,7 +123,7 @@ module OnlineSolver
 
 
     def solver_arguments
-      "-ds #{ @input } -p #{ @parameter }"      
+      "-ds #{ @input } -o #{ out_file } -p #{ @parameter }"      
     end
 
 
