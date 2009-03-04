@@ -62,7 +62,7 @@ module OnlineSolver
 
 
     def debug message
-      if @debug
+      if @debug or @dry_run
         @messenger.puts message
         @messenger.flush
       end
