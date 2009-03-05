@@ -63,7 +63,7 @@ end
 
 opts.parse! ARGV
 
-if $solver.nil? or $ncpu == 0 or $input.nil? or $parameter.nil?
+if $solver.nil? or $input.nil? or $parameter.nil?
   puts opts
   exit 1
 end

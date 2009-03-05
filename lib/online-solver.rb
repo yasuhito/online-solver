@@ -3,6 +3,14 @@ require 'online-solver/server.rb'
 
 
 module OnlineSolver
+  def debug message
+    if @debug or @dry_run
+      @messenger.puts message
+      @messenger.flush
+    end
+  end
+
+
   def online_home
     "/home/online"
   end

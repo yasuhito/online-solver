@@ -64,14 +64,6 @@ module OnlineSolver
     end
 
 
-    def debug message
-      if @debug or @dry_run
-        @messenger.puts message
-        @messenger.flush
-      end
-    end
-
-
     def ssh_command
       case @solver
       when :sdpa, :sdpara
