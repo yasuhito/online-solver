@@ -91,4 +91,5 @@ rescue => e
       STDERR.puts each
     end
   end
+  exit 1
 end
