@@ -172,7 +172,7 @@ EOF
 EOF
       end
       script.split( "\n" ).each do | each |
-        @messenger.puts "> #{ each }"
+        debug "> #{ each }"
       end
       @qsub.print script
       @qsub.flush
