@@ -13,6 +13,7 @@ module OnlineSolver
       @debug = options[ :debug ]
       @dry_run = options[ :dry_run ]
       @temp_dir = options[ :temp_dir ] || temp_dir
+      @out_file = options[ :out_file ]
       if @dry_run and options[ :qsub ].nil?
         @qsub = StringIO.new( "" )
       else
@@ -28,7 +29,7 @@ module OnlineSolver
       @parameter = parameter
       create_qsub_sh
       qsub
-      wait_until_job_finished unless @dry_run
+      wait_until_job_finished if @out_file or ( not @dry_run )
     end
 
 
@@ -43,7 +44,11 @@ module OnlineSolver
 
 
     def out_file
-      File.join @temp_dir, Process.pid.to_s
+      if @out_file
+        @out_file
+      else
+        File.join @temp_dir, Process.pid.to_s
+      end
     end
 
 
