@@ -80,6 +80,22 @@ task :flog do
 end
 
 
+################################################################################
+# Flay
+################################################################################
+
+def flay directories
+  sh "find #{ directories.join( " " ) } -name \\*.rb | xargs flay"
+end
+
+
+desc "Flay me!"
+task :flay do
+  flay [ "lib" ]
+end
+
+
+
 ### Local variables:
 ### mode: Ruby
 ### coding: utf-8-unix
