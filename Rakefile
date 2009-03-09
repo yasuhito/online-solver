@@ -40,6 +40,10 @@ RCov::VerifyTask.new do | t |
 end
 
 
+################################################################################
+# TODO etc.
+################################################################################
+
 def egrep pattern
   Dir[ '**/*.rb' ].each do | each |
     count = 0
@@ -58,6 +62,21 @@ end
 desc "Look for TODO and FIXME tags in the code"
 task :todo do
   egrep /(FIXME|TODO|TBD)/
+end
+
+
+################################################################################
+# Flog
+################################################################################
+
+def flog directories
+  sh "find #{ directories.join( " " ) } -name \\*.rb | xargs flog"
+end
+
+
+desc "Flog me!"
+task :flog do
+  flog [ "lib" ]
 end
 
 
