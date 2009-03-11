@@ -1,0 +1,2 @@
+autotest: features --format progress
+autotest-all: features --format progress
