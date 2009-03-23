@@ -40,3 +40,10 @@ Feature: cilent ssh to server
     | sdpa_gmp | 1    | ~/.ssh/online-key | ssh -i ~/.ssh/online-key online@opt-laqua.indsys.chuo-u.ac.jp /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpa_gmp |
     | sdpa_gmp | 4    | nil               | ssh online@opt-laqua.indsys.chuo-u.ac.jp /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpa_gmp                      |
     | sdpa_gmp | 1    | nil               | ssh online@opt-laqua.indsys.chuo-u.ac.jp /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpa_gmp                      |
+
+  Scenarios: sdpa_dd
+    | solver   | ncpu | ssh_id            | command                                                                                                                                                                |
+    | sdpa_dd  | 4    | ~/.ssh/online-key | ssh -i ~/.ssh/online-key online@opt-laqua.indsys.chuo-u.ac.jp /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpa_dd |
+    | sdpa_dd  | 1    | ~/.ssh/online-key | ssh -i ~/.ssh/online-key online@opt-laqua.indsys.chuo-u.ac.jp /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpa_dd |
+    | sdpa_dd  | 4    | nil               | ssh online@opt-laqua.indsys.chuo-u.ac.jp /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpa_dd                      |
+    | sdpa_dd  | 1    | nil               | ssh online@opt-laqua.indsys.chuo-u.ac.jp /home/online/bin/server --input /home/online/tmp/input --parameter /home/online/tmp/parameter --solver sdpa_dd                      |

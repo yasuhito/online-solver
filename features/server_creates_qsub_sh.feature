@@ -45,6 +45,14 @@ Feature: server creates qsub.sh
     | sdpa_gmp | nil  | #PBS -q sdpa                                                                                                  |
     | sdpa_gmp | nil  | /home/online/solver/sdpa_gmp -ds /home/online/tmp/input -o /home/online/tmp/\d+ -p /home/online/tmp/parameter |
 
+  Scenarios: sdpa_dd solver
+    | solver   | ncpu | line                                                                                                          |
+    | sdpa_dd  | nil  | #PBS -l ncpus=1                                                                                               |
+    | sdpa_dd  | nil  | #PBS -l nodes=1                                                                                               |
+    | sdpa_dd  | nil  | #PBS -q sdpa                                                                                                  |
+    | sdpa_dd  | nil  | export OMP_NUM_THREADS=1                                                                                      |
+    | sdpa_dd  | nil  | /home/online/solver/sdpa_dd -ds /home/online/tmp/input -o /home/online/tmp/\d+ -p /home/online/tmp/parameter  |
+
   Scenarios: sdpara solver (ncpus = 1)
     | solver | ncpu | line                                                                                                                     |
     | sdpara | 1    | #PBS -l ncpus=1                                                                                                          |

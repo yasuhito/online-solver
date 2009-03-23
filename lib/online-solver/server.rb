@@ -121,6 +121,8 @@ module OnlineSolver
         "/home/online/solver/sdpa_ec2"
       when :sdpa_gmp
         "/home/online/solver/sdpa_gmp"
+      when :sdpa_dd
+        "/home/online/solver/sdpa_dd"
       when :sdpara
         "mpiexec -n #{ @ncpu } /home/online/solver/sdpara"
       end
@@ -160,6 +162,17 @@ EOF
 #PBS -l ncpus=1
 #PBS -l nodes=1
 #PBS -q sdpa
+#{ solver_path } #{ solver_arguments }
+EOF
+      when :sdpa_dd
+        script = <<-EOF
+#!/bin/sh
+#PBS -l ncpus=1
+#PBS -l nodes=1
+#PBS -q sdpa
+#PBS -o /home/online/tmp
+#PBS -e /home/online/tmp
+export OMP_NUM_THREADS=1
 #{ solver_path } #{ solver_arguments }
 EOF
       when :sdpara

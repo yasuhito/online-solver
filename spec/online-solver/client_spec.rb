@@ -79,6 +79,20 @@ module OnlineSolver
           @client.start :sdpa_gmp, "NCPU", "INPUT", "PARAMETER", "SSH_ID"
         end
       end
+
+
+      context 'to sdpa_dd solver' do
+        it 'should scp to opt-laqua' do
+          @shell.should_receive( :exec ).with( /^scp .* online@opt-laqua.indsys.chuo-u.ac.jp:.*/ )
+          @client.start :sdpa_dd, "NCPU", "INPUT", "PARAMETER", "SSH_ID"
+        end
+
+
+        it 'should ssh to opt-laqua' do
+          @shell.should_receive( :exec ).with( /^ssh .* online@opt-laqua.indsys.chuo-u.ac.jp/ )
+          @client.start :sdpa_dd, "NCPU", "INPUT", "PARAMETER", "SSH_ID"
+        end
+      end
     end
 
 

@@ -19,7 +19,7 @@ Feature: client automatically selects a server
     | sdpa_ec2 | ec2-67-202-18-171.compute-1.amazonaws.com |
     | sdpara   | sdpa01.indsys.chuo-u.ac.jp                |
     | sdpa_gmp | opt-laqua.indsys.chuo-u.ac.jp             |
-
+    | sdpa_dd  | opt-laqua.indsys.chuo-u.ac.jp             |
 
   Scenario: fail to select a server
     Given I have created a client

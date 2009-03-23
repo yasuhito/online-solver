@@ -56,7 +56,7 @@ module OnlineSolver
         'ec2-67-202-18-171.compute-1.amazonaws.com'
       when :sdpara
         'sdpa01.indsys.chuo-u.ac.jp'
-      when :sdpa_gmp
+      when :sdpa_gmp, :sdpa_dd
         'opt-laqua.indsys.chuo-u.ac.jp'
       else
         raise "Invalid solver: #{ @solver }"
@@ -68,7 +68,7 @@ module OnlineSolver
       case @solver
       when :sdpa, :sdpara
         "ssh #{ ssh_i_option }online@#{ server } #{ server_command } --input #{ input_remote } --parameter #{ parameter_remote } --solver #{ @solver } --ncpu #{ @ncpu }"
-      when :sdpa_ec2, :sdpa_gmp
+      when :sdpa_ec2, :sdpa_gmp, :sdpa_dd
         "ssh #{ ssh_i_option }online@#{ server } #{ server_command } --input #{ input_remote } --parameter #{ parameter_remote } --solver #{ @solver }"
       end
     end
@@ -78,7 +78,7 @@ module OnlineSolver
       case @solver
       when :sdpa
         nil
-      when :sdpa_ec2, :sdpara, :sdpa_gmp
+      when :sdpa_ec2, :sdpara, :sdpa_gmp, :sdpa_dd
         "scp #{ ssh_i_option }#{ @input } #{ @parameter } online@#{ server }:#{ temp_dir }"
       end
     end

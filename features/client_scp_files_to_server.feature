@@ -32,3 +32,8 @@ Feature: client scp files to server
     | solver   | ssh_id            | command                                                                                                  |
     | sdpa_gmp | ~/.ssh/online-key | scp -i ~/.ssh/online-key /tmp/input /tmp/parameter online@opt-laqua.indsys.chuo-u.ac.jp:/home/online/tmp |
     | sdpa_gmp | nil               | scp /tmp/input /tmp/parameter online@opt-laqua.indsys.chuo-u.ac.jp:/home/online/tmp                      |
+
+  Scenarios: sdpa_dd
+    | solver   | ssh_id            | command                                                                                                  |
+    | sdpa_dd  | ~/.ssh/online-key | scp -i ~/.ssh/online-key /tmp/input /tmp/parameter online@opt-laqua.indsys.chuo-u.ac.jp:/home/online/tmp |
+    | sdpa_dd  | nil               | scp /tmp/input /tmp/parameter online@opt-laqua.indsys.chuo-u.ac.jp:/home/online/tmp                      |
